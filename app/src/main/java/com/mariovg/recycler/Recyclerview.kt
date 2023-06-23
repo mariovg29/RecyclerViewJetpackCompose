@@ -1,9 +1,9 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.mariovg.recycler
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,9 +15,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,6 +63,38 @@ fun SuperHeroeView() {
 }
 
 @Composable
+fun SuperHeroStickyView() {
+    val context = LocalContext.current
+    val superHeroes: Map<String, List<SuperHeroe>> = getSuperHeroe().groupBy { it.publisher }
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        superHeroes.forEach { (publisher, mySsuperheroe) ->
+            stickyHeader {
+                Text(
+                    text = publisher,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Green),
+                    fontSize = 20.sp,
+                    color = Color.White
+                )
+
+            }
+            items(mySsuperheroe) { superheroe ->
+                ItemHero(heroe = superheroe) {
+                    Toast.makeText(context, it.superHeroeName, Toast.LENGTH_SHORT).show()
+
+                }
+
+            }
+
+
+        }
+    }
+
+}
+
+
+@Composable
 fun SuperHeroeWithSpecialContentiew() {
     val context = LocalContext.current
     val rvState = rememberLazyListState()
@@ -77,7 +106,8 @@ fun SuperHeroeWithSpecialContentiew() {
         ) {
             items(getSuperHeroe()) { superheroe ->
                 ItemHero(heroe = superheroe) {
-                    Toast.makeText(context, it.superHeroeName, Toast.LENGTH_SHORT).show() }
+                    Toast.makeText(context, it.superHeroeName, Toast.LENGTH_SHORT).show()
+                }
 
             }
 
@@ -88,21 +118,22 @@ fun SuperHeroeWithSpecialContentiew() {
             }
         }
 
-        if (showbutton){
-            Button(onClick = {
-                coroutineScope.launch {
-                    rvState.animateScrollToItem(0)
-                }
+        if (showbutton) {
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        rvState.animateScrollToItem(0)
+                    }
 
-            },
+                },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(16.dp)) {
+                    .padding(16.dp)
+            ) {
                 Text(text = "Soy un botón cool")
             }
 
         }
-
 
 
     }

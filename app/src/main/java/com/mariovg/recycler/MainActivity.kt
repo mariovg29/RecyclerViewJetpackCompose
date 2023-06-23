@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     //SimpleRecycler()
                     //SuperHeroeGridView()
-                    SuperHeroeWithSpecialContentiew()
+                    //SuperHeroeWithSpecialContentiew()
+                    SuperHeroStickyView()
                 }
             }
         }
