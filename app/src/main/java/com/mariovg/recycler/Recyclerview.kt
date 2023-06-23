@@ -10,9 +10,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mariovg.recycler.model.SuperHeroe
+import kotlinx.coroutines.launch
 
 @Composable
 fun SimpleRecycler() {
@@ -49,7 +55,7 @@ fun SuperHeroeView() {
     val context = LocalContext.current
     LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(getSuperHeroe()) { superheroe ->
-            ItemHero(heroe = superheroe){
+            ItemHero(heroe = superheroe) {
                 Toast.makeText(context, it.superHeroeName, Toast.LENGTH_SHORT).show()
 
             }
@@ -58,18 +64,64 @@ fun SuperHeroeView() {
     }
 
 }
+
+@Composable
+fun SuperHeroeWithSpecialContentiew() {
+    val context = LocalContext.current
+    val rvState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    Column() {
+        LazyColumn(
+            state = rvState, verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            items(getSuperHeroe()) { superheroe ->
+                ItemHero(heroe = superheroe) {
+                    Toast.makeText(context, it.superHeroeName, Toast.LENGTH_SHORT).show() }
+
+            }
+
+        }
+        val showbutton by remember {
+            derivedStateOf {
+                rvState.firstVisibleItemIndex > 0
+            }
+        }
+
+        if (showbutton){
+            Button(onClick = {
+                coroutineScope.launch {
+                    rvState.animateScrollToItem(0)
+                }
+
+            },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp)) {
+                Text(text = "Soy un botón cool")
+            }
+
+        }
+
+
+
+    }
+
+
+}
+
 @Composable
 fun SuperHeroeGridView() {
     val context = LocalContext.current
-    LazyVerticalGrid(columns = GridCells.Fixed(2), content ={
+    LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
         items(getSuperHeroe()) { superheroe ->
-            ItemHero(heroe = superheroe){
+            ItemHero(heroe = superheroe) {
                 Toast.makeText(context, it.superHeroeName, Toast.LENGTH_SHORT).show()
 
             }
 
         }
-    } )
+    })
 
 }
 
@@ -78,8 +130,9 @@ fun ItemHero(heroe: SuperHeroe, onItemSelected: (SuperHeroe) -> Unit) {
     Card(
         border = BorderStroke(2.dp, Color.Red),
         modifier = Modifier
-            .width(200.dp)
-            .clickable { onItemSelected(heroe) }.padding(vertical = 8.dp, horizontal = 8.dp)) {
+            .fillMaxWidth()
+            .clickable { onItemSelected(heroe) }
+            .padding(vertical = 8.dp, horizontal = 8.dp)) {
         Column {
             Image(
                 painter = painterResource(id = heroe.photo),
