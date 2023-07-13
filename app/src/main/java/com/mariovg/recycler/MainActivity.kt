@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.mariovg.recycler.ui.theme.RecyclerTheme
+import com.mariovg.recycler.ui.theme.ScafoldExample
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
                     //SimpleRecycler()
                     //SuperHeroeGridView()
                     //SuperHeroeWithSpecialContentiew()
-                    SuperHeroStickyView()
+                    //SuperHeroStickyView()
+                    ScafoldExample()
                 }
             }
         }
