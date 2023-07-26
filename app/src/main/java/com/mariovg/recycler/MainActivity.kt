@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mariovg.recycler.ui.theme.RecyclerTheme
-import com.mariovg.recycler.ui.theme.ScafoldExample
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.mariovg.recycler.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +25,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //SimpleRecycler()
+                    val navigationController = rememberNavController()
+                    NavHost(navController = navigationController, startDestination = "pantalla1") {
+                        composable("pantalla1") {
+                            Screen1(navigationController)
+                        }
+                        composable("pantalla2") {
+                            Screen2(navigationController)
+                        }
+                        composable("pantalla3") {
+                            Screen3(navigationController)
+                        }
+
+                    }
                     //SuperHeroeGridView()
                     //SuperHeroeWithSpecialContentiew()
                     //SuperHeroStickyView()
-                    ScafoldExample()
+                    //ScafoldExample()
                 }
             }
         }
