@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mariovg.recycler.model.Routes
 import com.mariovg.recycler.ui.theme.*
 
 class MainActivity : ComponentActivity() {
@@ -26,14 +27,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val navigationController = rememberNavController()
-                    NavHost(navController = navigationController, startDestination = "pantalla1") {
-                        composable("pantalla1") {
+                    NavHost(navController = navigationController, startDestination = Routes.Pantalla1.route) {
+                        composable(Routes.Pantalla1.route) {
                             Screen1(navigationController)
                         }
-                        composable("pantalla2") {
+                        composable(Routes.Pantalla2.route) {
                             Screen2(navigationController)
                         }
-                        composable("pantalla3") {
+                        composable(Routes.Pantalla3.route) {
                             Screen3(navigationController)
                         }
 
