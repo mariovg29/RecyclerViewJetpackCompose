@@ -10,9 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mariovg.recycler.model.Routes
 import com.mariovg.recycler.ui.theme.*
 
@@ -27,7 +29,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val navigationController = rememberNavController()
-                    NavHost(navController = navigationController, startDestination = Routes.Pantalla1.route) {
+                    NavHost(
+                        navController = navigationController,
+                        startDestination = Routes.Pantalla1.route
+                    ) {
                         composable(Routes.Pantalla1.route) {
                             Screen1(navigationController)
                         }
@@ -37,6 +42,16 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.Pantalla3.route) {
                             Screen3(navigationController)
                         }
+                        composable(
+                            "pantalla4/{name}",
+                            arguments = listOf(navArgument("name") {
+                                type = NavType.IntType })
+                        ){ backStackEntry ->
+                                Screen4(
+                                    navigationController,
+                                    backStackEntry.arguments?.getInt("name") ?:0
+                                )
+                            }
 
                     }
                     //SuperHeroeGridView()
