@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import com.mariovg.recycler.model.Routes
 
 @Composable
 fun Screen1(navController: NavHostController) {
@@ -54,20 +55,20 @@ fun Screen3(navController: NavHostController) {
             text = "Pantalla3",
             modifier = Modifier
                 .align(Alignment.Center)
-                .clickable { navController.navigate("pantalla4/234") })
+                .clickable { navController.navigate(Routes.Pantalla4.createRoute(234)) })
     }
 
 }
 
 @Composable
-fun Screen4(navController: NavHostController, name: Int) {
+fun Screen4(navController: NavHostController, age: Int) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Magenta)
+            .background(Color.Yellow)
     ) {
         Text(
-            text = name.toString(),
+            text = "tengo $age años",
             modifier = Modifier
                 .align(Alignment.Center)
                 .clickable { navController.navigate("pantalla1") })
